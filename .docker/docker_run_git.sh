@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ "${DISABLE_MAKE}" != "1" ]; then
   echo "\n* Running composer ...";
@@ -60,6 +60,10 @@ if [ ! -f ./config/settings.inc.php ]; then
         fi
 
         echo "\n* Launching the installer script..."
+        if [ "$CODESPACES" = true ]; then
+            export PS_ENABLE_SSL="0"
+            export PS_DOMAIN="127.0.0.1"
+        fi
         runuser -g www-data -u www-data -- php /var/www/html/$PS_FOLDER_INSTALL/index_cli.php \
         --domain="$PS_DOMAIN" --db_server=$DB_SERVER:$DB_PORT --db_name="$DB_NAME" --db_user=$DB_USER \
         --db_password=$DB_PASSWD --prefix="$DB_PREFIX" --firstname="Marc" --lastname="Beier" \
