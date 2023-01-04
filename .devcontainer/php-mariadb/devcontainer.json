@@ -5,11 +5,15 @@
 	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 
   "features": {
-    "ghcr.io/devcontainers/features/node:1": {}
+    "ghcr.io/devcontainers/features/node:1": {},
+    "ghcr.io/devcontainers/features/git:1": {}
   },
 
   "forwardPorts": [80, 3306],
-	"postCreateCommand": "sleep 60 && /workspaces/${localWorkspaceFolderBasename}/.docker/docker_run_git.sh",
+	"postCreateCommand": [
+    "sleep 30",
+    "/workspaces/${localWorkspaceFolderBasename}/.docker/docker_run_git.sh | tee /workspaces/${localWorkspaceFolderBasename}/postCreateCommand.log"
+  ],
 
 	// Configure tool-specific properties.
   "customizations": {
