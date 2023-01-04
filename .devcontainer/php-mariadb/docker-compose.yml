@@ -1,35 +1,46 @@
 version: '3.8'
 
-services: 
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-
-    volumes:
-      - ../..:/workspaces:cached
-
-    # Overrides default command so things don't shut down after the process ends.
-    command: sleep infinity
-
-    # Runs app on the same network as the database container, allows "forwardPorts" in devcontainer.json function.
-    network_mode: service:db
-
-    # Use "forwardPorts" in **devcontainer.json** to forward an app port locally. 
-    # (Adding the "ports" property to this file will not forward from a Codespace.)
+services:
   db:
     image: mariadb:10.4
     restart: unless-stopped
     volumes:
-      - mariadb-data:/var/lib/mysql
+      - db-data:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: mariadb
-      MYSQL_DATABASE: mariadb
-      MYSQL_USER: mariadb
-      MYSQL_PASSWORD: mariadb
+      MYSQL_ROOT_PASSWORD: prestashop
+      MYSQL_DATABASE: prestashop
+      # MYSQL_USER: prestashop
+      # MYSQL_PASSWORD: prestashop
+  app:
+    build:
+      context: ../..
+      dockerfile: ../../.docker/Dockerfile
+    command: sleep infinity
+    network_mode: service:db
+    volumes:
+      - ../..:/workspaces:cached
+      - ../..:/var/www/html:delegated
+      args:
+        - VERSION=${VERSION:-8.1-apache}
+        - USER_ID=${USER_ID:-1000}
+        - GROUP_ID=${GROUP_ID:-1000}
+    environment:
+      DISABLE_MAKE: ${DISABLE_MAKE:-0}
+      PS_INSTALL_AUTO: ${PS_INSTALL_AUTO:-1}
+      DB_PASSWD: ${DB_PASSWD:-prestashop}
+      DB_NAME: ${DB_NAME:-prestashop}
+      DB_SERVER: ${DB_SERVER:-mysql}
+      DB_PREFIX: ${DB_PREFIX:-ps_}
+      PS_DOMAIN: ${PS_DOMAIN:-localhost:8001}
+      PS_FOLDER_INSTALL: ${PS_FOLDER_INSTALL:-install-dev}
+      PS_FOLDER_ADMIN: ${PS_FOLDER_ADMIN:-admin-dev}
+      PS_COUNTRY: ${PS_COUNTRY:-fr}
+      PS_LANGUAGE: ${PS_LANGUAGE:-fr}
+      PS_DEV_MODE: ${PS_DEV_MODE:-0}
+      ADMIN_MAIL: ${ADMIN_MAIL:-demo@prestashop.com}
+      ADMIN_PASSWD: ${ADMIN_PASSWD:-Correct Horse Battery Staple}
 
-    # Add "forwardPorts": ["3306"] to **devcontainer.json** to forward MariaDB locally.
-    # (Adding the "ports" property to this file will not forward from a Codespace.)
-  
 volumes:
-  mariadb-data:
+  db-data:
+  vendor:
+  var:
