@@ -13,8 +13,8 @@ services:
       # MYSQL_PASSWORD: prestashop
   app:
     build:
-      context: ../..
-      dockerfile: ../../.docker/Dockerfile
+      context: ..
+      dockerfile: ../.docker/Dockerfile
       args:
         - VERSION=${VERSION:-8.1-apache}
         - USER_ID=${USER_ID:-1000}
