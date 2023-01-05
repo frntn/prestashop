@@ -36,7 +36,7 @@
 	// "shutdownAction": "none",
 
 	// Uncomment the next line to run commands after the container is created.
-	"postCreateCommand": "cd /var/www/html && .docker/docker_run_git.sh",
+	"postCreateCommand": "cd /var/www/html && sed -i apache .docker/docker_run_git.sh && .docker/docker_run_git.sh 2>&1 > .docker/docker_run_git.log && service apache2 start",
 
 	// Configure tool-specific properties.
     "customizations": {
