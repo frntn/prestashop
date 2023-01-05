@@ -10,10 +10,7 @@
   },
 
   "forwardPorts": [80, 3306],
-	"postCreateCommand": [
-    "sleep 30",
-    "/workspaces/${localWorkspaceFolderBasename}/.docker/docker_run_git.sh | tee /workspaces/${localWorkspaceFolderBasename}/postCreateCommand.log"
-  ],
+	"postCreateCommand": "sleep 10 && chown -R www-data:www-data /var/www/html/modules/ && /workspaces/${localWorkspaceFolderBasename}/.docker/docker_run_git.sh | tee /workspaces/${localWorkspaceFolderBasename}/postCreateCommand.log",
 
 	// Configure tool-specific properties.
   "customizations": {
