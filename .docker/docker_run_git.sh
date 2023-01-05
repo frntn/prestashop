@@ -60,7 +60,7 @@ if [ ! -f ./config/settings.inc.php ]; then
         fi
 
         echo "\n* Launching the installer script..."
-        if [ "$CODESPACES" = true ]; then
+        if [ "$CODESPACES" = true ] || [ "$REMOTE_CONTAINERS" = true ]; then
             export PS_ENABLE_SSL="0"
             export PS_DOMAIN="127.0.0.1"
         fi
