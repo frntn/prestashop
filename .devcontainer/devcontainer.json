@@ -20,11 +20,11 @@
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	"features": {
-            "ghcr.io/devcontainers/features/git:1": {
-                "version": "latest",
-                "ppa": "false"
-            }
-        },
+        "ghcr.io/devcontainers/features/git:1": {
+            "version": "latest",
+            "ppa": "false"
+      }
+  },
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [80, 3306],
@@ -36,7 +36,7 @@
 	// "shutdownAction": "none",
 
 	// Uncomment the next line to run commands after the container is created.
-	"postCreateCommand": "cd /var/www/html && sed -i apache .docker/docker_run_git.sh && .docker/docker_run_git.sh 2>&1 > .docker/docker_run_git.log && service apache2 start",
+	"postCreateCommand": "cd /var/www/html && sed -i '/apache/d' .docker/docker_run_git.sh && .docker/docker_run_git.sh 2>&1 > .docker/docker_run_git.log && service apache2 start",
 
 	// Configure tool-specific properties.
     "customizations": {
