@@ -85,4 +85,3 @@ fi
 
 echo "\n* Almost ! Starting web server now\n";
 
-exec apache2-foreground
